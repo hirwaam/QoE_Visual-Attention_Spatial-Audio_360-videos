@@ -18,3 +18,6 @@ The pose data gives information regarding the pose of the participants while wat
 
 In total, 73 files with heart rate related data are contained in the dataset. Each file has information regarding heart rate of the participant in the baseline condition, heart rate when the participant watched videos in the Indoor category and heart rate when the participant watched videos in the Outdoor category along with the corresponding timestamp for a particular sound condition. The fo, ho, and ns folders comprise 18 files each, whereas the st folder includes a total of 19 files with heart rate data.
 
+**Subjective Questionnaire**
+
+A questionnaire consisting of twenty questions was developed to evaluate the participants' perception of presence, immersion, and spatiality of sound after watching the stimuli. Inputs from existing well-known questionnnaires were considered in the development of this questionnaire.  The absolute category rating (ACR) system, was used to rate each question. The rating system used a five-point Likert scale, where the participants indicated whether they agreed or disagreed with each statement.
