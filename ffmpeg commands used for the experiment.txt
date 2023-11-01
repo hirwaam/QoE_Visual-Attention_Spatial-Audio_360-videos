@@ -1,0 +1,141 @@
+# Remove audio stream (for generating videos without sound)
+ffmpeg -i input.mov -c:v copy -an output.mov
+
+# Extract audio stream (for conversion from foa/toa to stereo)
+ffmpeg -i input.mov -vn -c:a copy output.wav
+
+# Add audio stream without re-encoding
+ffmpeg -i input.mov (video without audio) -i audio.wav (stereo file) -c copy output.mov (video with stereo sound)
+
+# Extract the first 60 seconds from video file
+ffmpeg -ss 00:00:00 -i input.mov -c:v copy -c:a copy -t 00:01:00 output.mov
+fmpeg -i input.mov -ss 00:00:00 -t 00:01:00 -c:v copy -c:a copy output.mov
+
+# Mux'ing video and audio
+ffmpeg -i video.mov -i audio.wav -map 0:v -map 1:a -c:v copy -c:a copy -shortest output.mov
+
+# Scaling
+ffmpeg -i input.mov -vf scale=3840:1920 output.mov
+
+# Extract to stereo
+ffmpeg -i "signed16bitPCM.wav" -c pcm_s16le -ac 2 "Audio 1 (-ac 2).wav"
+
+# Generating sequences
+1) With sound
+
+13567, 12456
+
+ffmpeg421 -i '1.Duetto.3o-Indoor-Opera-Duet-4096x2048_60sec.mov' -i '3.Falstaff-Nannetta.3o-Indoor-Opera-Single Actor-4096x2048_60sec.mov' -i '5.Jerusalem-Riconciliazione.3o-Indoor-Opera-Many Actors-4096x2048_60sec.mov' -i '6.Traviata-Addio.3o-Indoor=Opera-Single Actor-4096x2048_60sec.mov' -i  '7.Traviata-Libiamo.3o-Indoor-Opera-ManyActors-4096x2048_60sec.mov' -filter_complex "[0:v:0][0:a:0][1:v:0][1:a:0][2:v:0][2:a:0][3:v:0][3:a:0][4:v:0][4:a:0]concat=n=5:v=1:a=1[outv][outa]" -map "[outv]" -map "[outa]" thirdorder_indoor_13567.mov
+
+ffmpeg -i '1.Duetto.1o-Indoor-Opera-Duet-4096x2048_60sec.mov' -i '3.Falstaff-Nannetta.1o-Indoor-Opera-Single Actor-4096x2048_60sec.mov' -i '5.Jerusalem-Riconciliazione.1o-Indoor-Opera-Many Actors-4096x2048_60sec.mov' -i '6.Traviata-Addio.1o-Indoor=Opera-Single Actor-4096x2048_60sec.mov' -i  '7.Traviata-Libiamo.1o-Indoor-Opera-ManyActors-4096x2048_60sec.mov' -filter_complex "[0:v:0][0:a:0][1:v:0][1:a:0][2:v:0][2:a:0][3:v:0][3:a:0][4:v:0][4:a:0]concat=n=5:v=1:a=1[outv][outa]" -map "[outv]" -map "[outa]" firstorder_indoor_13567.mov
+
+ffmpeg -i '1.Duetto.stereo-Indoor-Opera-Duet-4096x2048_60sec.mov' -i '3.Falstaff-Nannetta.stereo-Indoor-Opera-Single Actor-4096x2048_60sec.mov' -i '5.Jerusalem-Riconciliazione.stereo-Indoor-Opera-Many Actors-4096x2048_60sec.mov' -i '6.Traviata-Addio.stereo-Indoor=Opera-Single Actor-4096x2048_60sec.mov' -i  '7.Traviata-Libiamo.stereo-Indoor-Opera-ManyActors-4096x2048_60sec.mov' -filter_complex "[0:v:0][0:a:0][1:v:0][1:a:0][2:v:0][2:a:0][3:v:0][3:a:0][4:v:0][4:a:0]concat=n=5:v=1:a=1[outv][outa]" -map "[outv]" -map "[outa]" stereo_indoor_13567.mov
+
+ffmpeg421 -i '1.Campane.3o-Outdoor-Exploration-Church Bell-3840x1920_60sec.mov' -i '2.Fisarmonica-01.3o-Outdoor-Instrument-Player visible-3840x1920_60sec.mov' -i '4.Parco-ducale.3o-Outdoor-Exploration-Park-3840x1920_60sec.mov' -i '5.PiazzaDuomo.3o-Outdoor-Instrument-Player not immediately visible-3840x1920_60sec.mov' -i  '6.Tempietto-01-bongo.3o-Outdoor-Instrument-3840x1920_60sec.mov' -filter_complex "[0:v:0][0:a:0][1:v:0][1:a:0][2:v:0][2:a:0][3:v:0][3:a:0][4:v:0][4:a:0]concat=n=5:v=1:a=1[outv][outa]" -map "[outv]" -map "[outa]" thirdorder_outdoor_12456.mov
+
+ffmpeg -i '1.Campane.1o-Outdoor-Exploration-Church Bell-3840x1920_60sec.mov' -i '2.Fisarmonica-01.1o-Outdoor-Instrument-Player visible-3840x1920_60sec.mov' -i '4.Parco-ducale.1o-Outdoor-Exploration-Park-3840x1920_60sec.mov' -i '5.PiazzaDuomo.1o-Outdoor-Instrument-Player not immediately visible-3840x1920_60sec.mov' -i  '6.Tempietto-01-bongo.1o-Outdoor-Instrument-3840x1920_60sec.mov' -filter_complex "[0:v:0][0:a:0][1:v:0][1:a:0][2:v:0][2:a:0][3:v:0][3:a:0][4:v:0][4:a:0]concat=n=5:v=1:a=1[outv][outa]" -map "[outv]" -map "[outa]" firstorder_outdoor_12456.mov
+
+
+ffmpeg -i '1.Campane.stereo-Outdoor-Exploration-Church Bell-3840x1920_60sec.mov' -i '2.Fisarmonica-01.stereo-Outdoor-Instrument-Player visible-3840x1920_60sec.mov' -i '4.Parco-ducale.stereo-Outdoor-Exploration-Park-3840x1920_60sec.mov' -i '5.PiazzaDuomo.stereo-Outdoor-Instrument-Player not immediately visible-3840x1920_60sec.mov' -i  '6.Tempietto-01-bongo.stereo-Outdoor-Instrument-3840x1920_60sec.mov' -filter_complex "[0:v:0][0:a:0][1:v:0][1:a:0][2:v:0][2:a:0][3:v:0][3:a:0][4:v:0][4:a:0]concat=n=5:v=1:a=1[outv][outa]" -map "[outv]" -map "[outa]" stereo_outdoor_12456.mov
+
+
+31567, 65412
+
+ffmpeg421 -i '3.Falstaff-Nannetta.3o-Indoor-Opera-Single Actor-4096x2048_60sec.mov' -i '1.Duetto.3o-Indoor-Opera-Duet-4096x2048_60sec.mov' -i '5.Jerusalem-Riconciliazione.3o-Indoor-Opera-Many Actors-4096x2048_60sec.mov' -i '6.Traviata-Addio.3o-Indoor=Opera-Single Actor-4096x2048_60sec.mov' -i  '7.Traviata-Libiamo.3o-Indoor-Opera-ManyActors-4096x2048_60sec.mov' -filter_complex "[0:v:0][0:a:0][1:v:0][1:a:0][2:v:0][2:a:0][3:v:0][3:a:0][4:v:0][4:a:0]concat=n=5:v=1:a=1[outv][outa]" -map "[outv]" -map "[outa]" thirdorder_indoor_31567.mov
+
+ffmpeg -i '3.Falstaff-Nannetta.1o-Indoor-Opera-Single Actor-4096x2048_60sec.mov'-i '1.Duetto.1o-Indoor-Opera-Duet-4096x2048_60sec.mov'  -i '5.Jerusalem-Riconciliazione.1o-Indoor-Opera-Many Actors-4096x2048_60sec.mov' -i '6.Traviata-Addio.1o-Indoor=Opera-Single Actor-4096x2048_60sec.mov' -i  '7.Traviata-Libiamo.1o-Indoor-Opera-ManyActors-4096x2048_60sec.mov' -filter_complex "[0:v:0][0:a:0][1:v:0][1:a:0][2:v:0][2:a:0][3:v:0][3:a:0][4:v:0][4:a:0]concat=n=5:v=1:a=1[outv][outa]" -map "[outv]" -map "[outa]" firstorder_indoor_31567.mov
+
+ffmpeg -i '3.Falstaff-Nannetta.stereo-Indoor-Opera-Single Actor-4096x2048_60sec.mov' -i '1.Duetto.stereo-Indoor-Opera-Duet-4096x2048_60sec.mov'  -i '5.Jerusalem-Riconciliazione.stereo-Indoor-Opera-Many Actors-4096x2048_60sec.mov' -i '6.Traviata-Addio.stereo-Indoor=Opera-Single Actor-4096x2048_60sec.mov' -i  '7.Traviata-Libiamo.stereo-Indoor-Opera-ManyActors-4096x2048_60sec.mov' -filter_complex "[0:v:0][0:a:0][1:v:0][1:a:0][2:v:0][2:a:0][3:v:0][3:a:0][4:v:0][4:a:0]concat=n=5:v=1:a=1[outv][outa]" -map "[outv]" -map "[outa]" stereo_indoor_31567.mov
+
+ffmpeg421 -i  '6.Tempietto-01-bongo.3o-Outdoor-Instrument-3840x1920_60sec.mov' -i '5.PiazzaDuomo.3o-Outdoor-Instrument-Player not immediately visible-3840x1920_60sec.mov' -i '4.Parco-ducale.3o-Outdoor-Exploration-Park-3840x1920_60sec.mov' -i '1.Campane.3o-Outdoor-Exploration-Church Bell-3840x1920_60sec.mov' -i '2.Fisarmonica-01.3o-Outdoor-Instrument-Player visible-3840x1920_60sec.mov' -filter_complex "[0:v:0][0:a:0][1:v:0][1:a:0][2:v:0][2:a:0][3:v:0][3:a:0][4:v:0][4:a:0]concat=n=5:v=1:a=1[outv][outa]" -map "[outv]" -map "[outa]" thirdorder_outdoor_65412.mov
+
+ffmpeg -i '6.Tempietto-01-bongo.1o-Outdoor-Instrument-3840x1920_60sec.mov' -i '5.PiazzaDuomo.1o-Outdoor-Instrument-Player not immediately visible-3840x1920_60sec.mov' -i '4.Parco-ducale.1o-Outdoor-Exploration-Park-3840x1920_60sec.mov' -i '1.Campane.1o-Outdoor-Exploration-Church Bell-3840x1920_60sec.mov' -i '2.Fisarmonica-01.1o-Outdoor-Instrument-Player visible-3840x1920_60sec.mov' -filter_complex "[0:v:0][0:a:0][1:v:0][1:a:0][2:v:0][2:a:0][3:v:0][3:a:0][4:v:0][4:a:0]concat=n=5:v=1:a=1[outv][outa]" -map "[outv]" -map "[outa]" firstorder_outdoor_65412.mov
+
+ffmpeg -i '6.Tempietto-01-bongo.stereo-Outdoor-Instrument-3840x1920_60sec.mov' -i '5.PiazzaDuomo.stereo-Outdoor-Instrument-Player not immediately visible-3840x1920_60sec.mov' -i '4.Parco-ducale.stereo-Outdoor-Exploration-Park-3840x1920_60sec.mov' -i '1.Campane.stereo-Outdoor-Exploration-Church Bell-3840x1920_60sec.mov' -i '2.Fisarmonica-01.stereo-Outdoor-Instrument-Player visible-3840x1920_60sec.mov'  -filter_complex "[0:v:0][0:a:0][1:v:0][1:a:0][2:v:0][2:a:0][3:v:0][3:a:0][4:v:0][4:a:0]concat=n=5:v=1:a=1[outv][outa]" -map "[outv]" -map "[outa]" stereo_outdoor_65412.mov
+
+
+71365, 16245
+
+ffmpeg421 -i '7.Traviata-Libiamo.3o-Indoor-Opera-ManyActors-4096x2048_60sec.mov' -i '1.Duetto.3o-Indoor-Opera-Duet-4096x2048_60sec.mov'  -i '3.Falstaff-Nannetta.3o-Indoor-Opera-Single Actor-4096x2048_60sec.mov' -i '6.Traviata-Addio.3o-Indoor=Opera-Single Actor-4096x2048_60sec.mov'  -i '5.Jerusalem-Riconciliazione.3o-Indoor-Opera-Many Actors-4096x2048_60sec.mov'  -filter_complex "[0:v:0][0:a:0][1:v:0][1:a:0][2:v:0][2:a:0][3:v:0][3:a:0][4:v:0][4:a:0]concat=n=5:v=1:a=1[outv][outa]" -map "[outv]" -map "[outa]" thirdorder_indoor_71365.mov
+
+ffmpeg -i '7.Traviata-Libiamo.1o-Indoor-Opera-ManyActors-4096x2048_60sec.mov' -i '1.Duetto.1o-Indoor-Opera-Duet-4096x2048_60sec.mov' -i '3.Falstaff-Nannetta.1o-Indoor-Opera-Single Actor-4096x2048_60sec.mov' -i '6.Traviata-Addio.1o-Indoor=Opera-Single Actor-4096x2048_60sec.mov'  -i '5.Jerusalem-Riconciliazione.1o-Indoor-Opera-Many Actors-4096x2048_60sec.mov' -filter_complex "[0:v:0][0:a:0][1:v:0][1:a:0][2:v:0][2:a:0][3:v:0][3:a:0][4:v:0][4:a:0]concat=n=5:v=1:a=1[outv][outa]" -map "[outv]" -map "[outa]" firstorder_indoor_71365.mov
+
+ffmpeg -i '7.Traviata-Libiamo.stereo-Indoor-Opera-ManyActors-4096x2048_60sec.mov' -i '1.Duetto.stereo-Indoor-Opera-Duet-4096x2048_60sec.mov' -i '3.Falstaff-Nannetta.stereo-Indoor-Opera-Single Actor-4096x2048_60sec.mov'  -i '6.Traviata-Addio.stereo-Indoor=Opera-Single Actor-4096x2048_60sec.mov' -i '5.Jerusalem-Riconciliazione.stereo-Indoor-Opera-Many Actors-4096x2048_60sec.mov' -filter_complex "[0:v:0][0:a:0][1:v:0][1:a:0][2:v:0][2:a:0][3:v:0][3:a:0][4:v:0][4:a:0]concat=n=5:v=1:a=1[outv][outa]" -map "[outv]" -map "[outa]" stereo_indoor_71365.mov
+
+ffmpeg421 -i '1.Campane.3o-Outdoor-Exploration-Church Bell-3840x1920_60sec.mov' -i  '6.Tempietto-01-bongo.3o-Outdoor-Instrument-3840x1920_60sec.mov' -i '2.Fisarmonica-01.3o-Outdoor-Instrument-Player visible-3840x1920_60sec.mov'  -i '4.Parco-ducale.3o-Outdoor-Exploration-Park-3840x1920_60sec.mov' -i '5.PiazzaDuomo.3o-Outdoor-Instrument-Player not immediately visible-3840x1920_60sec.mov'  -filter_complex "[0:v:0][0:a:0][1:v:0][1:a:0][2:v:0][2:a:0][3:v:0][3:a:0][4:v:0][4:a:0]concat=n=5:v=1:a=1[outv][outa]" -map "[outv]" -map "[outa]" thirdorder_outdoor_16245.mov
+
+ffmpeg -i '1.Campane.1o-Outdoor-Exploration-Church Bell-3840x1920_60sec.mov' -i '6.Tempietto-01-bongo.1o-Outdoor-Instrument-3840x1920_60sec.mov' -i '2.Fisarmonica-01.1o-Outdoor-Instrument-Player visible-3840x1920_60sec.mov' -i '4.Parco-ducale.1o-Outdoor-Exploration-Park-3840x1920_60sec.mov' -i '5.PiazzaDuomo.1o-Outdoor-Instrument-Player not immediately visible-3840x1920_60sec.mov' -filter_complex "[0:v:0][0:a:0][1:v:0][1:a:0][2:v:0][2:a:0][3:v:0][3:a:0][4:v:0][4:a:0]concat=n=5:v=1:a=1[outv][outa]" -map "[outv]" -map "[outa]" firstorder_outdoor_16245.mov
+
+ffmpeg -i '1.Campane.stereo-Outdoor-Exploration-Church Bell-3840x1920_60sec.mov' -i '6.Tempietto-01-bongo.stereo-Outdoor-Instrument-3840x1920_60sec.mov'  -i '2.Fisarmonica-01.stereo-Outdoor-Instrument-Player visible-3840x1920_60sec.mov' -i '4.Parco-ducale.stereo-Outdoor-Exploration-Park-3840x1920_60sec.mov' -i '5.PiazzaDuomo.stereo-Outdoor-Instrument-Player not immediately visible-3840x1920_60sec.mov'  -filter_complex "[0:v:0][0:a:0][1:v:0][1:a:0][2:v:0][2:a:0][3:v:0][3:a:0][4:v:0][4:a:0]concat=n=5:v=1:a=1[outv][outa]" -map "[outv]" -map "[outa]" stereo_outdoor_16245.mov
+
+16735 ,25164
+
+ffmpeg421 -i '1.Duetto.3o-Indoor-Opera-Duet-4096x2048_60sec.mov' -i '6.Traviata-Addio.3o-Indoor=Opera-Single Actor-4096x2048_60sec.mov' -i '7.Traviata-Libiamo.3o-Indoor-Opera-ManyActors-4096x2048_60sec.mov'  -i '3.Falstaff-Nannetta.3o-Indoor-Opera-Single Actor-4096x2048_60sec.mov' -i '5.Jerusalem-Riconciliazione.3o-Indoor-Opera-Many Actors-4096x2048_60sec.mov'  -filter_complex "[0:v:0][0:a:0][1:v:0][1:a:0][2:v:0][2:a:0][3:v:0][3:a:0][4:v:0][4:a:0]concat=n=5:v=1:a=1[outv][outa]" -map "[outv]" -map "[outa]" thirdorder_indoor_16735.mov
+
+ffmpeg -i '1.Duetto.1o-Indoor-Opera-Duet-4096x2048_60sec.mov'  -i '6.Traviata-Addio.1o-Indoor=Opera-Single Actor-4096x2048_60sec.mov' -i '7.Traviata-Libiamo.1o-Indoor-Opera-ManyActors-4096x2048_60sec.mov'  -i '3.Falstaff-Nannetta.1o-Indoor-Opera-Single Actor-4096x2048_60sec.mov'  -i '5.Jerusalem-Riconciliazione.1o-Indoor-Opera-Many Actors-4096x2048_60sec.mov' -filter_complex "[0:v:0][0:a:0][1:v:0][1:a:0][2:v:0][2:a:0][3:v:0][3:a:0][4:v:0][4:a:0]concat=n=5:v=1:a=1[outv][outa]" -map "[outv]" -map "[outa]" firstorder_indoor_16735.mov
+
+ffmpeg  -i '1.Duetto.stereo-Indoor-Opera-Duet-4096x2048_60sec.mov' -i '6.Traviata-Addio.stereo-Indoor=Opera-Single Actor-4096x2048_60sec.mov' -i '7.Traviata-Libiamo.stereo-Indoor-Opera-ManyActors-4096x2048_60sec.mov'-i '3.Falstaff-Nannetta.stereo-Indoor-Opera-Single Actor-4096x2048_60sec.mov'  -i '5.Jerusalem-Riconciliazione.stereo-Indoor-Opera-Many Actors-4096x2048_60sec.mov' -filter_complex "[0:v:0][0:a:0][1:v:0][1:a:0][2:v:0][2:a:0][3:v:0][3:a:0][4:v:0][4:a:0]concat=n=5:v=1:a=1[outv][outa]" -map "[outv]" -map "[outa]" stereo_indoor_16735.mov
+
+ffmpeg421 -i '2.Fisarmonica-01.3o-Outdoor-Instrument-Player visible-3840x1920_60sec.mov'  -i '5.PiazzaDuomo.3o-Outdoor-Instrument-Player not immediately visible-3840x1920_60sec.mov' -i '1.Campane.3o-Outdoor-Exploration-Church Bell-3840x1920_60sec.mov' -i  '6.Tempietto-01-bongo.3o-Outdoor-Instrument-3840x1920_60sec.mov'-i '4.Parco-ducale.3o-Outdoor-Exploration-Park-3840x1920_60sec.mov' -filter_complex "[0:v:0][0:a:0][1:v:0][1:a:0][2:v:0][2:a:0][3:v:0][3:a:0][4:v:0][4:a:0]concat=n=5:v=1:a=1[outv][outa]" -map "[outv]" -map "[outa]" thirdorder_outdoor_25164.mov
+
+ffmpeg -i '2.Fisarmonica-01.1o-Outdoor-Instrument-Player visible-3840x1920_60sec.mov' -i '5.PiazzaDuomo.1o-Outdoor-Instrument-Player not immediately visible-3840x1920_60sec.mov' -i '1.Campane.1o-Outdoor-Exploration-Church Bell-3840x1920_60sec.mov' -i '6.Tempietto-01-bongo.1o-Outdoor-Instrument-3840x1920_60sec.mov' -i '4.Parco-ducale.1o-Outdoor-Exploration-Park-3840x1920_60sec.mov' -filter_complex     "[0:v:0][0:a:0][1:v:0][1:a:0][2:v:0][2:a:0][3:v:0][3:a:0][4:v:0][4:a:0]concat=n=5:v=1:a=1[outv][outa]" -map "[outv]" -map "[outa]" firstorder_outdoor_25164.mov
+
+ffmpeg -i '2.Fisarmonica-01.stereo-Outdoor-Instrument-Player visible-3840x1920_60sec.mov' -i '5.PiazzaDuomo.stereo-Outdoor-Instrument-Player not immediately visible-3840x1920_60sec.mov' -i '1.Campane.stereo-Outdoor-Exploration-Church Bell-3840x1920_60sec.mov' -i '6.Tempietto-01-bongo.stereo-Outdoor-Instrument-3840x1920_60sec.mov' -i '4.Parco-ducale.stereo-Outdoor-Exploration-Park-3840x1920_60sec.mov' -filter_complex "[0:v:0][0:a:0][1:v:0][1:a:0][2:v:0][2:a:0][3:v:0][3:a:0][4:v:0][4:a:0]concat=n=5:v=1:a=1[outv][outa]" -map "[outv]" -map "[outa]" stereo_outdoor_25164.mov
+
+76513, 16542
+
+ffmpeg421 -i '7.Traviata-Libiamo.3o-Indoor-Opera-ManyActors-4096x2048_60sec.mov'  -i '6.Traviata-Addio.3o-Indoor=Opera-Single Actor-4096x2048_60sec.mov'  -i '5.Jerusalem-Riconciliazione.3o-Indoor-Opera-Many Actors-4096x2048_60sec.mov'  -i '1.Duetto.3o-Indoor-Opera-Duet-4096x2048_60sec.mov'  -i '3.Falstaff-Nannetta.3o-Indoor-Opera-Single Actor-4096x2048_60sec.mov' -filter_complex "[0:v:0][0:a:0][1:v:0][1:a:0][2:v:0][2:a:0][3:v:0][3:a:0][4:v:0][4:a:0]concat=n=5:v=1:a=1[outv][outa]" -map "[outv]" -map "[outa]" thirdorder_indoor_76513.mov
+
+ffmpeg -i '7.Traviata-Libiamo.1o-Indoor-Opera-ManyActors-4096x2048_60sec.mov' -i '6.Traviata-Addio.1o-Indoor=Opera-Single Actor-4096x2048_60sec.mov' -i '5.Jerusalem-Riconciliazione.1o-Indoor-Opera-Many Actors-4096x2048_60sec.mov'  -i '1.Duetto.1o-Indoor-Opera-Duet-4096x2048_60sec.mov' -i '3.Falstaff-Nannetta.1o-Indoor-Opera-Single Actor-4096x2048_60sec.mov' -filter_complex "[0:v:0][0:a:0][1:v:0][1:a:0][2:v:0][2:a:0][3:v:0][3:a:0][4:v:0][4:a:0]concat=n=5:v=1:a=1[outv][outa]" -map "[outv]" -map "[outa]" firstorder_indoor_76513.mov
+
+ffmpeg  -i '7.Traviata-Libiamo.stereo-Indoor-Opera-ManyActors-4096x2048_60sec.mov' -i '6.Traviata-Addio.stereo-Indoor=Opera-Single Actor-4096x2048_60sec.mov' -i '5.Jerusalem-Riconciliazione.stereo-Indoor-Opera-Many Actors-4096x2048_60sec.mov' -i '1.Duetto.stereo-Indoor-Opera-Duet-4096x2048_60sec.mov' -i '3.Falstaff-Nannetta.stereo-Indoor-Opera-Single Actor-4096x2048_60sec.mov' -filter_complex "[0:v:0][0:a:0][1:v:0][1:a:0][2:v:0][2:a:0][3:v:0][3:a:0][4:v:0][4:a:0]concat=n=5:v=1:a=1[outv][outa]" -map "[outv]" -map "[outa]" stereo_indoor_76513.mov
+
+ffmpeg421 -i '1.Campane.3o-Outdoor-Exploration-Church Bell-3840x1920_60sec.mov' -i '6.Tempietto-01-bongo.3o-Outdoor-Instrument-3840x1920_60sec.mov' -i '5.PiazzaDuomo.3o-Outdoor-Instrument-Player not immediately visible-3840x1920_60sec.mov' -i '4.Parco-ducale.3o-Outdoor-Exploration-Park-3840x1920_60sec.mov' -i '2.Fisarmonica-01.3o-Outdoor-Instrument-Player visible-3840x1920_60sec.mov'  -filter_complex "[0:v:0][0:a:0][1:v:0][1:a:0][2:v:0][2:a:0][3:v:0][3:a:0][4:v:0][4:a:0]concat=n=5:v=1:a=1[outv][outa]" -map "[outv]" -map "[outa]" thirdorder_outdoor_16542.mov
+
+ffmpeg -i '1.Campane.1o-Outdoor-Exploration-Church Bell-3840x1920_60sec.mov' -i '6.Tempietto-01-bongo.1o-Outdoor-Instrument-3840x1920_60sec.mov' -i '5.PiazzaDuomo.1o-Outdoor-Instrument-Player not immediately visible-3840x1920_60sec.mov' -i '4.Parco-ducale.1o-Outdoor-Exploration-Park-3840x1920_60sec.mov' -i '2.Fisarmonica-01.1o-Outdoor-Instrument-Player visible-3840x1920_60sec.mov' -filter_complex     "[0:v:0][0:a:0][1:v:0][1:a:0][2:v:0][2:a:0][3:v:0][3:a:0][4:v:0][4:a:0]concat=n=5:v=1:a=1[outv][outa]" -map "[outv]" -map "[outa]" firstorder_outdoor_16542.mov
+
+ffmpeg -i '1.Campane.stereo-Outdoor-Exploration-Church Bell-3840x1920_60sec.mov' -i '6.Tempietto-01-bongo.stereo-Outdoor-Instrument-3840x1920_60sec.mov' -i '5.PiazzaDuomo.stereo-Outdoor-Instrument-Player not immediately visible-3840x1920_60sec.mov' -i '4.Parco-ducale.stereo-Outdoor-Exploration-Park-3840x1920_60sec.mov' -i '2.Fisarmonica-01.stereo-Outdoor-Instrument-Player visible-3840x1920_60sec.mov' -filter_complex "[0:v:0][0:a:0][1:v:0][1:a:0][2:v:0][2:a:0][3:v:0][3:a:0][4:v:0][4:a:0]concat=n=5:v=1:a=1[outv][outa]" -map "[outv]" -map "[outa]" stereo_outdoor_16542.mov
+
+
+2) Without Sound
+
+13567, 12456
+
+ffmpeg -i '1.Duetto.NoSound-Indoor-Opera-Duet-4096x2048_60sec.mov' -i '3.Falstaff-Nannetta.stereo-Indoor-Opera-Single Actor-4096x2048_60sec.mov' -i '5.Jerusalem-Riconciliazione.stereo-Indoor-Opera-Many Actors-4096x2048_60sec.mov' -i '6.Traviata-Addio.stereo-Indoor=Opera-Single Actor-4096x2048_60sec.mov' -i  '7.Traviata-Libiamo.stereo-Indoor-Opera-ManyActors-4096x2048_60sec.mov' -filter_complex "[0:v:0][1:v:0][2:v:0][3:v:0][4:v:0] concat=n=5:v=1:[outv]" -map "[outv]" nosound_indoor_13567.mov
+
+ffmpeg -i '1.Campane.NoSound-Outdoor-Exploration-Church Bell-3840x1920_60sec.mov' -i '2.Fisarmonica-01.stereo-Outdoor-Instrument-Player visible-3840x1920_60sec.mov' -i '4.Parco-ducale.stereo-Outdoor-Exploration-Park-3840x1920_60sec.mov' -i '5.PiazzaDuomo.stereo-Outdoor-Instrument-Player not immediately visible-3840x1920_60sec.mov' -i  '6.Tempietto-01-bongo.stereo-Outdoor-Instrument-3840x1920_60sec.mov' -filter_complex "[0:v:0][1:v:0][2:v:0][3:v:0][4:v:0]concat=n=5:v=1:[outv]" -map "[outv]" nosound_outdoor_12456.mov
+
+31567, 65412
+
+ffmpeg -i '3.Falstaff-Nannetta.NoSound-Indoor-Opera-Single Actor-4096x2048_60sec.mov' -i '1.Duetto.stereo-Indoor-Opera-Duet-4096x2048_60sec.mov'  -i '5.Jerusalem-Riconciliazione.stereo-Indoor-Opera-Many Actors-4096x2048_60sec.mov' -i '6.Traviata-Addio.stereo-Indoor=Opera-Single Actor-4096x2048_60sec.mov' -i  '7.Traviata-Libiamo.stereo-Indoor-Opera-ManyActors-4096x2048_60sec.mov' -filter_complex "[0:v:0][1:v:0][2:v:0][3:v:0][4:v:0]concat=n=5:v=1:[outv]" -map "[outv]" nosound_indoor_31567.mov
+
+ffmpeg421 -i  '6.Tempietto-01-bongo.NoSound-Outdoor-Instrument-3840x1920_60sec.mov' -i '5.PiazzaDuomo.3o-Outdoor-Instrument-Player not immediately visible-3840x1920_60sec.mov' -i '4.Parco-ducale.3o-Outdoor-Exploration-Park-3840x1920_60sec.mov' -i '1.Campane.3o-Outdoor-Exploration-Church Bell-3840x1920_60sec.mov' -i '2.Fisarmonica-01.3o-Outdoor-Instrument-Player visible-3840x1920_60sec.mov' -filter_complex "[0:v:0][1:v:0][2:v:0][3:v:0][4:v:0]concat=n=5:v=1:[outv]" -map "[outv]" nosound_outdoor_65412.mov
+
+71365, 16245
+
+ffmpeg -i '7.Traviata-Libiamo.NoSound-Indoor-Opera-ManyActors-4096x2048_60sec.mov' -i '1.Duetto.stereo-Indoor-Opera-Duet-4096x2048_60sec.mov' -i '3.Falstaff-Nannetta.stereo-Indoor-Opera-Single Actor-4096x2048_60sec.mov'  -i '6.Traviata-Addio.stereo-Indoor=Opera-Single Actor-4096x2048_60sec.mov' -i '5.Jerusalem-Riconciliazione.stereo-Indoor-Opera-Many Actors-4096x2048_60sec.mov' -filter_complex "[0:v:0][1:v:0][2:v:0][3:v:0][4:v:0]concat=n=5:v=1:[outv]" -map "[outv]" nosound_indoor_71365.mov
+
+ffmpeg421 -i '1.Campane.NoSound-Outdoor-Exploration-Church Bell-3840x1920_60sec.mov' -i  '6.Tempietto-01-bongo.3o-Outdoor-Instrument-3840x1920_60sec.mov' -i '2.Fisarmonica-01.3o-Outdoor-Instrument-Player visible-3840x1920_60sec.mov'  -i '4.Parco-ducale.3o-Outdoor-Exploration-Park-3840x1920_60sec.mov' -i '5.PiazzaDuomo.3o-Outdoor-Instrument-Player not immediately visible-3840x1920_60sec.mov'  -filter_complex "[0:v:0][1:v:0][2:v:0][3:v:0][4:v:0]concat=n=5:v=1:[outv]" -map "[outv]" nosound_outdoor_16245.mov
+
+16735 ,25164
+
+ffmpeg  -i '1.Duetto.NoSound-Indoor-Opera-Duet-4096x2048_60sec.mov' -i '6.Traviata-Addio.stereo-Indoor=Opera-Single Actor-4096x2048_60sec.mov' -i '7.Traviata-Libiamo.stereo-Indoor-Opera-ManyActors-4096x2048_60sec.mov'-i '3.Falstaff-Nannetta.stereo-Indoor-Opera-Single Actor-4096x2048_60sec.mov'  -i '5.Jerusalem-Riconciliazione.stereo-Indoor-Opera-Many Actors-4096x2048_60sec.mov' -filter_complex "[0:v:0][1:v:0][2:v:0][3:v:0][4:v:0]concat=n=5:v=1:[outv]" -map "[outv]" nosound_indoor_16735.mov
+
+ffmpeg421 -i '2.Fisarmonica-01.NoSound-Outdoor-Instrument-Player visible-3840x1920_60sec.mov'  -i '5.PiazzaDuomo.3o-Outdoor-Instrument-Player not immediately visible-3840x1920_60sec.mov' -i '1.Campane.3o-Outdoor-Exploration-Church Bell-3840x1920_60sec.mov' -i  '6.Tempietto-01-bongo.3o-Outdoor-Instrument-3840x1920_60sec.mov'-i '4.Parco-ducale.3o-Outdoor-Exploration-Park-3840x1920_60sec.mov' -filter_complex "[0:v:0][1:v:0][2:v:0][3:v:0][4:v:0]concat=n=5:v=1:[outv]" -map "[outv]" nosound_outdoor_25164.mov
+
+
+76513, 16542
+
+ffmpeg  -i '7.Traviata-Libiamo.NoSound-Indoor-Opera-ManyActors-4096x2048_60sec.mov' -i '6.Traviata-Addio.stereo-Indoor=Opera-Single Actor-4096x2048_60sec.mov' -i '5.Jerusalem-Riconciliazione.stereo-Indoor-Opera-Many Actors-4096x2048_60sec.mov' -i '1.Duetto.stereo-Indoor-Opera-Duet-4096x2048_60sec.mov' -i '3.Falstaff-Nannetta.stereo-Indoor-Opera-Single Actor-4096x2048_60sec.mov' -filter_complex "[0:v:0][1:v:0][2:v:0][3:v:0][4:v:0]concat=n=5:v=1:[outv][outa]" -map "[outv]" nosound_indoor_76513.mov
+
+ffmpeg421 -i '1.Campane.NoSound-Outdoor-Exploration-Church Bell-3840x1920_60sec.mov' -i '6.Tempietto-01-bongo.3o-Outdoor-Instrument-3840x1920_60sec.mov' -i '5.PiazzaDuomo.3o-Outdoor-Instrument-Player not immediately visible-3840x1920_60sec.mov' -i '4.Parco-ducale.3o-Outdoor-Exploration-Park-3840x1920_60sec.mov' -i '2.Fisarmonica-01.3o-Outdoor-Instrument-Player visible-3840x1920_60sec.mov'  -filter_complex "[0:v:0][1:v:0][2:v:0][3:v:0][4:v:0]concat=n=5:v=1:[outv]" -map "[outv]" nosound_outdoor_16542.mov
+
+#Fade In and Out effects
+
+1) Without Sound
+
+ffmpeg -i -i -i -i -i -filter_complex "[0:v]fade=type=out:duration=2:start_time=58,setpts=PTS-STARTPTS[v0]; [1:v]fade=type=in:duration=3,fade=type=out:duration=2:start_time=58,setpts=PTS-STARTPTS[v1];[2:v]fade=type=in:duration=3,fade=type=out:duration=1:start_time=58,setpts=PTS-STARTPTS[v2];[3:v]fade=type=in:duration=3,fade=type=out:duration=1:start_time=58,setpts=PTS-STARTPTS[v3];[4:v]fade=type=in:duration=3,setpts=PTS-STARTPTS[v4];[v0][v1][v2][v3][v4]concat=n=5:v=1:[v]" -map "[v]" output.mov
+
+2) With Sound
+
+ffmpeg421 -i -i -i -i -i -filter_complex "[0:v]fade=type=out:duration=2:start_time=58,setpts=PTS-STARTPTS[v0];[1:v]fade=type=in:duration=3,fade=type=out:duration=2:start_time=58,setpts=PTS-STARTPTS[v1];[2:v]fade=type=in:duration=3,fade=type=out:duration=2:start_time=58,setpts=PTS-STARTPTS[v2];[3:v]fade=type=in:duration=3,fade=type=out:duration=2:start_time=58,setpts=PTS-STARTPTS[v3];[4:v]fade=type=in:duration=3,setpts=PTS-STARTPTS[v4];[v0][0:a][v1][1:a][v2][2:a][v3][3:a][v4][4:a]concat=n=5:v=1:a=1[v][a]" -map "[v]" -map "[a]" output.mov 
