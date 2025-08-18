@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use this dataset or code for academic work, please cite it as below."
+authors:
+  - family-names: Hirway
+    given-names: Amit
+    orcid: https://orcid.org/0000-0000-0000-0000
+  - family-names: Qiao
+    given-names: Yuansong
+  - family-names: Murray
+    given-names: Niall
+title: QoE, Visual Attention & Spatial Audio in 360° Videos
+version: 1.0.0
+date-released: 2025-08-17
+doi: 10.21203/rs.3.rs-5924870/v1
+url: https://github.com/hirwaam/QoE_Visual-Attention_Spatial-Audio_360-videos
+license: CC-BY-4.0
+repository-code: https://github.com/hirwaam/QoE_Visual-Attention_Spatial-Audio_360-videos
+abstract: >
+  This dataset supports a study on the influence of spatial audio (stereo, FOA, HOA, and no sound) on user attention and Quality of Experience (QoE) in immersive 360° video environments. It includes gaze data, head pose, heart rate, and subjective responses collected from participants under controlled experimental conditions.
